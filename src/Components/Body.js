@@ -1,5 +1,5 @@
 import React from "react";
-import Restaurantcard from "./Restaurantcard.js";
+import Restaurantcard, { withPromotedLabel } from "./Restaurantcard.js";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { resList_URL } from "../utils/constants.js";
@@ -9,6 +9,7 @@ const Body = () => {
   const [listOfRes, setlistOfRes] = useState(null);
   const [filteredRes, setFilteredres] = useState([]);
   const [SearchText, setSearchText] = useState("");
+  const PromotedRestraunt = withPromotedLabel(Restaurantcard);
 
   useEffect(() => {
     fetchdata();
@@ -17,7 +18,6 @@ const Body = () => {
   const fetchdata = async () => {
     const data = await fetch(resList_URL);
     const json = await data.json();
-   
 
     console.log(json);
     if (
@@ -31,26 +31,26 @@ const Body = () => {
     setlistOfRes(
       json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
-   };
-   const onlineStatus= useOnlineStatus();
+   
+  };
+  const onlineStatus = useOnlineStatus();
 
-   if(onlineStatus===false) return <h1> looks like you are offline.. </h1>
-     
-     
+  if (onlineStatus === false) return <h1> looks like you are offline.. </h1>;
+
   return listOfRes === null ? (
-    <HomepageSkeleton/>
+    <HomepageSkeleton />
   ) : (
     <div className="body">
       <div className="filter">
         <button
-          className="filter-btn"
+          className="filter-btn shadow-lg"
           onClick={() => {
             setFilteredres(listOfRes.filter((res) => res.info.avgRating > 4));
           }}
         >
           Top rated Restaurant
         </button>
-        <div className="search">
+        <div className="px-[15px] ">
           <input
             type="text"
             className="search-box"
@@ -76,13 +76,18 @@ const Body = () => {
           </button>
         </div>
       </div>
-      <div className="res-container">
+      <div className="flex flex-wrap">
         {filteredRes.map((Restaurant) => (
-          <Link className="resCard"
+          <Link
+            className="resCard"
             to={"/Restaurant/" + Restaurant.info.id}
             key={Restaurant.info.id}
           >
-            <Restaurantcard resdata={Restaurant} />
+            {(Restaurant.info.avgRating>4.2) ? (
+              <PromotedRestraunt resdata={Restaurant} />
+            ) : (
+              <Restaurantcard resdata={Restaurant} />
+            )}
           </Link>
         ))}
       </div>

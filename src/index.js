@@ -7,6 +7,7 @@ import Error from "./Components/Error.js";
 import Header from "./Components/Header.js";
 import Restaurantmenu from "./Components/RestaurantMenu.js";
 import './index.css';
+import HomepageSkeleton from "./lib/Skeleton/HomepageSkeleton.js";
 const Contact = lazy(()=> import("./Components/Contact.js"));
 
 const Applayout = () => {
@@ -32,7 +33,7 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/Contact",
-        element: <Suspense fallback={<h1>loading.......</h1>}><Contact /></Suspense> 
+        element: <Suspense fallback={<HomepageSkeleton/>}><Contact /></Suspense> 
       },
       {
         path: "/Restaurant/:id",

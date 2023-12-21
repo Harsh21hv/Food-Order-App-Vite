@@ -6,7 +6,7 @@ const Header = () => {
   const [btn, setbtn] = useState("Login");
 
   return (
-    <div className="header">
+    <div className="shadow-lg m-2 flex justify-between">
       <div className="logoContainer">
         <img className="logo" src={LOGO_URL} alt = "logo"/>
       </div>

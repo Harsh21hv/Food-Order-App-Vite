@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import useResMenu from "../utils/custom hooks/useResMenu";
 import HomepageSkeleton from "../lib/Skeleton/HomepageSkeleton";
+import Menucategory from "./Menucategory";
 
 const Restaurantmenu = () => {
   const { id } = useParams();
@@ -12,26 +13,29 @@ const Restaurantmenu = () => {
 
   console.log(resInfo);
 
-  const { name, costForTwo } = resInfo?.cards[0]?.card?.card?.info;
+  const { name, costForTwo, cuisines } = resInfo?.cards[0]?.card?.card?.info;
 
   const { itemCards } =
     resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
-  console.log(itemCards);
+
+  const categories =
+    resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card?.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+
+  console.log(categories);
   return (
-    <div>
-      <h1>{name} </h1>
-      <h2>{costForTwo / 100} for Two</h2>
-      <h2>Menu</h2>
-      <ul>
-        {itemCards &&
-          itemCards.map((items) => (
-            <li key={items.card.info.id}>
-              {items.card.info.name}- Rs{" "}
-              {items.card.info.price / 100 ||
-                items.card.info.defaultPrice / 100}
-            </li>
-          ))}
-      </ul>
+    <div className="text-center ">
+      <h1 className="font-serif my-6 ">{name} </h1>
+      <p className="text-xl font-bold font-serif">
+        {cuisines.join(", ")} - {costForTwo / 100} for two
+      </p>
+       
+       {categories.map((category)=>(
+        <Menucategory data={category?.card?.card}/>
+       ))}
     </div>
   );
 };
