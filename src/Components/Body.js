@@ -19,19 +19,41 @@ const Body = () => {
     const data = await fetch(resList_URL);
     const json = await data.json();
 
-    console.log(json);
-    if (
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    ) {
-      setFilteredres(
-        json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
+    console.log("JSON Body.js: ", json);
+
+    let index;
+    let maxList = [];
+    let tempResList = [];
+    for (let i = 1; i<=4; i++) {
+      tempResList =
+        json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants;
+      if (tempResList) {
+        if (maxList.length < tempResList.length) {
+          maxList = tempResList;
+          index = i;
+        }
+      }
     }
-    setlistOfRes(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-   
+
+    console.log("Index at which Restaurant list is present: ", index);
+
+    if (maxList) {
+      setFilteredres(maxList);
+      setlistOfRes(maxList);
+    }
+
+    // if (
+    //   json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    // ) {
+    //   setFilteredres(
+    //     json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+    //       ?.restaurants
+    //   );
+    // }
+    // setlistOfRes(
+    //   json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    // );
   };
   const onlineStatus = useOnlineStatus();
 
@@ -83,7 +105,7 @@ const Body = () => {
             to={"/Restaurant/" + Restaurant.info.id}
             key={Restaurant.info.id}
           >
-            {(Restaurant.info.avgRating>4.2) ? (
+            {Restaurant.info.avgRating > 4.2 ? (
               <PromotedRestraunt resdata={Restaurant} />
             ) : (
               <Restaurantcard resdata={Restaurant} />
