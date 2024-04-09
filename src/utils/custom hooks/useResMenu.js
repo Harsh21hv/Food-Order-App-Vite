@@ -10,7 +10,7 @@ const useResMenu = (id) => {
 
     const json = await data.json();
 
-    console.log(json);
+    console.log("Res Menu",json);
 
     setResInfo(json.data);
   };

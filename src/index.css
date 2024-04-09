@@ -19,14 +19,14 @@
 .filter-btn {
   margin: 15px;
   font-size: 12px;
-  background-color: rgb(252, 128, 25);
+  background-color: rgb(197, 97, 16);
   font-family: sans-serif;
   cursor: pointer;
-  border-radius: 50px;
+  border-radius: 20px;
   color: white;
-  padding: 4px;
   border: none;
-  padding: 10px 20px;
+  
+ 
 }
 .login {
   margin: auto;

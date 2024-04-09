@@ -7,7 +7,7 @@ const Restaurantcard = ({ resdata }) => {
 
   return (
     <div
-      className="w-[230px] m-[10px] p-2 shadow-lg"
+      className="w-[230px] m-[19px] p-2 shadow-lg"
       style={{ backgroundColor: "#f0f0f0" }}
     >
       <img

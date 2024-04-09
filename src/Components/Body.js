@@ -1,15 +1,15 @@
-import React from "react";
-import Restaurantcard, { withPromotedLabel } from "./Restaurantcard.js";
-import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import { resList_URL } from "../utils/constants.js";
-import HomepageSkeleton from "../lib/Skeleton/HomepageSkeleton.js";
-import useOnlineStatus from "../utils/custom hooks/useOnlineStatus.js";
-import userContext from "../utils/userContext.js";
+import React from 'react';
+import Restaurantcard, { withPromotedLabel } from './Restaurantcard.js';
+import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { resList_URL } from '../utils/constants.js';
+import HomepageSkeleton from '../lib/Skeleton/HomepageSkeleton.js';
+import useOnlineStatus from '../utils/custom hooks/useOnlineStatus.js';
+import userContext from '../utils/userContext.js';
 const Body = () => {
   const [listOfRes, setlistOfRes] = useState(null);
   const [filteredRes, setFilteredres] = useState([]);
-  const [SearchText, setSearchText] = useState("");
+  const [SearchText, setSearchText] = useState('');
   const PromotedRestraunt = withPromotedLabel(Restaurantcard);
 
   const data = useContext(userContext);
@@ -21,9 +21,6 @@ const Body = () => {
   const fetchdata = async () => {
     const data = await fetch(resList_URL);
     const json = await data.json();
-
-    console.log("JSON Body.js: ", json);
-
     let index;
     let maxList = [];
     let tempResList = [];
@@ -34,12 +31,9 @@ const Body = () => {
       if (tempResList) {
         if (maxList.length < tempResList.length) {
           maxList = tempResList;
-          index = i;
         }
       }
     }
-
-    console.log("Index at which Restaurant list is present: ", index);
 
     if (maxList) {
       setFilteredres(maxList);
@@ -65,38 +59,43 @@ const Body = () => {
   return listOfRes === null ? (
     <HomepageSkeleton />
   ) : (
-    <div className="body">
-      <div className="filter">
-        <button
-          className="filter-btn shadow-lg"
-          onClick={() => {
-            setFilteredres(listOfRes.filter((res) => res.info.avgRating > 4.3));
-          }}
-        >
-          Top rated Restaurant
-        </button>
-        <div className="flex items-center m-4 p-4">
-          <label className="font-serif font-bold">UserName:-</label>
+    <div className='body'>
+      <div className='filter'>
+        <div className='flex items-center m-4 p-4'>
+          <button
+            className=' p-4 bg-orange-400  text-white rounded-xl cursor-pointer hover:bg-orange-300 border-none shadow-lg '
+            onClick={() => {
+              setFilteredres(
+                listOfRes.filter((res) => res.info.avgRating > 4.3)
+              );
+            }}
+          >
+            Top rated Restaurant
+          </button>
+        </div>
+
+        <div className='flex items-center m-4 p-4'>
+          <label className='font-serif font-bold'>UserName:-</label>
           <input
-            className="border border-black p-2 rounded-md"
+            className='border border-black p-2 rounded-md'
             value={data.userName}
             onChange={(e) => {
               data.setUserName(e.target.value);
             }}
           ></input>
         </div>
-        <div className="px-[15px] ">
+        <div className='px-[15px] '>
           <input
-            type="text"
-            className="search-box m-4 p-4"
-            placeholder="search your Restaurants"
+            type='text'
+            className='search-box m-4 p-4'
+            placeholder='search your Restaurants'
             value={SearchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           />
           <button
-            className="searchBtn"
+            className='searchBtn'
             onClick={() => {
               setFilteredres(
                 listOfRes.filter((filRes) =>
@@ -111,11 +110,11 @@ const Body = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-wrap">
+      <div className='flex flex-wrap'>
         {filteredRes.map((Restaurant) => (
           <Link
-            className="resCard"
-            to={"/Restaurant/" + Restaurant.info.id}
+            className='resCard'
+            to={'/Restaurant/' + Restaurant.info.id}
             key={Restaurant.info.id}
           >
             {Restaurant.info.avgRating > 4.2 ? (
